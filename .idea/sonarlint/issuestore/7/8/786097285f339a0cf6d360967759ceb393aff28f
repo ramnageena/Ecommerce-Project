@@ -1,0 +1,5 @@
+
+
+java:S2166"CRename this class to remove "Exception" or correct its inheritance.(¦ĞíJ$6c291b1a-dbeb-4db5-958d-ab41064d4e62
+»
+java:S62042"zReplace this usage of 'Stream.collect(Collectors.toList())' with 'Stream.toList()' and ensure that the list is unmodified.(±õæ¡øÿÿÿÿJ$adeae5b5-bee2-4368-a00b-0f3e63b2d787
