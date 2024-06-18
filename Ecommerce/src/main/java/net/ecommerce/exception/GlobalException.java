@@ -47,8 +47,8 @@ public class GlobalException {
         Map<String, Object> response = new HashMap<>();
         response.put("timestamp", new Date());
         response.put("statusCode", HttpStatus.BAD_REQUEST.value());
-        List<String> errorMessage = e.getBindingResult().getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.toList());
 
+        List<String> errorMessage = e.getBindingResult().getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.toList());
         response.put("message", errorMessage);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

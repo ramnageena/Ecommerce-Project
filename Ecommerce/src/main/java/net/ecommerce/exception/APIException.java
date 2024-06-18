@@ -11,6 +11,6 @@ import java.util.Date;
 @NoArgsConstructor
 public class APIException {
     private Integer statusCode;
-   private  String message;
+    private String message;
     private Date timestamp;
 }
