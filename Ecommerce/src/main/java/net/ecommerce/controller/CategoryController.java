@@ -14,6 +14,13 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    //example for RequestParam
+    @GetMapping("/echo")
+    public ResponseEntity<String> message(@RequestParam(name = "message",required = false) String message){
+        String messageEcho="Echoed message: "+ message;
+        return new ResponseEntity<>(messageEcho,HttpStatus.OK);
+    }
+
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
