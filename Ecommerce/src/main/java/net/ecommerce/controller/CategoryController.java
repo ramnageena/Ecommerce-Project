@@ -25,10 +25,11 @@ public class CategoryController {
     }
 
     @GetMapping("/public/categories/{categoryId}")
-    public ResponseEntity<CategoryDto> getCategoryById( @PathVariable long categoryId) {
+    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable long categoryId) {
         CategoryDto categoryById = categoryService.getCategoryById(categoryId);
         return new ResponseEntity<>(categoryById, HttpStatus.FOUND);
     }
+
     @GetMapping("/public/categories")
     public ResponseEntity<CategoryResponse> getAllCategory() {
         CategoryResponse allCategory = categoryService.getAllCategory();
@@ -36,14 +37,15 @@ public class CategoryController {
     }
 
     @PutMapping("/public/categories/{categoryId}")
-    public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto,  @PathVariable Long categoryId) {
-        CategoryDto updatedCategory = categoryService.updateCategory(categoryDto,categoryId);
+    public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable Long categoryId) {
+        CategoryDto updatedCategory = categoryService.updateCategory(categoryDto, categoryId);
         return new ResponseEntity<>(updatedCategory, HttpStatus.ACCEPTED);
     }
+
     @DeleteMapping("/admin/categories/{categoryId}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long categoryId ) {
-       categoryService.deleteCategory(categoryId);
-        return new ResponseEntity<>( "Category Deleted Successfully!!!", HttpStatus.OK);
+    public ResponseEntity<String> deleteCategoryById(@PathVariable Long categoryId) {
+        categoryService.deleteCategoryById(categoryId);
+        return new ResponseEntity<>("Category Deleted Successfully!!!", HttpStatus.OK);
     }
 
 

@@ -56,7 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto createCategory(CategoryDto categoryDto) {
         Category categoryName = categoryRepository.findByCategoryName(categoryDto.getCategoryName());
-        if (categoryName!=null) {
+        if (categoryName != null) {
             throw new ResourceNotFoundException("Category is already exist by this name :" + categoryName.getCategoryName());
         }
 
@@ -70,7 +70,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto updateCategory(CategoryDto categoryDto, Long categoryId) {
         LOGGER.info("Inside CategoryServiceImpl.updateCategory() :{} ,:{} ", categoryDto, categoryId);
         Category categoryName = categoryRepository.findByCategoryName(categoryDto.getCategoryName());
-        if (categoryName!=null) {
+        if (categoryName != null) {
             throw new ResourceNotFoundException("Category is already exist by this name :" + categoryName.getCategoryName());
         }
         CategoryDto existingCategory = getCategoryById(categoryId);
@@ -81,14 +81,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public String deleteCategory(Long categoryId) {
+    public String deleteCategoryById(Long categoryId) {
         LOGGER.info("Inside CategoryServiceImpl.deleteCategory() :{} ", categoryId);
         CategoryDto categoryDto = getCategoryById(categoryId);
         Category category = modelMapper.map(categoryDto, Category.class);
         categoryRepository.delete(category);
         return "Category with categoryId: " + categoryId + " deleted successfully !!";
     }
-
 
 
 }
