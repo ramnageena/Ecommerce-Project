@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
 
     //example for RequestParam
     @GetMapping("/echo")
@@ -21,9 +24,7 @@ public class CategoryController {
         return new ResponseEntity<>(messageEcho,HttpStatus.OK);
     }
 
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+
 
     @PostMapping("/public/categories")
     public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryDto categoryDto) {
