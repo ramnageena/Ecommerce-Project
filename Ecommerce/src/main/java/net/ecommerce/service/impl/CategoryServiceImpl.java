@@ -9,24 +9,28 @@ import net.ecommerce.service.CategoryService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
-    @Autowired
     CategoryRepository categoryRepository;
-
-    @Autowired
     ModelMapper modelMapper;
 
+    //constructor injection
+    public CategoryServiceImpl(CategoryRepository categoryRepository, ModelMapper modelMapper) {
+        this.categoryRepository = categoryRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public CategoryDto getCategoryById(Long categoryId) {
@@ -41,15 +45,31 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponse getAllCategory() {
+    public CategoryResponse getAllCategory(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder) {
         LOGGER.info("Inside CategoryServiceImpl.getAllCategory !!!!");
-        List<Category> categoryList = categoryRepository.findAll();
+
+        /* Logic for Sorting*/
+        Sort sortByAndOrder = sortOrder.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();  //using ternary operator
+
+        /* Logic for Paging */
+        Pageable pageDetails = PageRequest.of(pageNumber, pageSize, sortByAndOrder);
+        Page<Category> categoryListPage = categoryRepository.findAll(pageDetails);
+        List<Category> categoryList = categoryListPage.getContent();
         if (categoryList.isEmpty()) {
             throw new ResourceNotFoundException("Category is not created till now");
         }
-        List<CategoryDto> categoryDto = categoryList.stream().map(category -> modelMapper.map(category, CategoryDto.class)).collect(Collectors.toList());
+        List<CategoryDto> categoryDto = categoryList.stream().map(category -> modelMapper.map(category, CategoryDto.class)).toList();
         CategoryResponse categoryResponse = new CategoryResponse();
         categoryResponse.setContent(categoryDto);
+
+        // setting  meta data for paging
+        categoryResponse.setPageNumber(categoryListPage.getNumber());
+        categoryResponse.setPageSize(categoryListPage.getSize());
+        categoryResponse.setTotalElements(categoryListPage.getTotalElements());
+        categoryResponse.setTotalPages(categoryListPage.getTotalPages());
+        categoryResponse.setLastPage(categoryListPage.isLast());
         return categoryResponse;
     }
 
