@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class APIException {
+public class APIResponse {
     private Integer statusCode;
     private String message;
     private Date timestamp;
