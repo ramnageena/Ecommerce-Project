@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
+
     public CategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
     //example for RequestParam
     @GetMapping("/echo")
-    public ResponseEntity<String> message(@RequestParam(name = "message",required = false) String message){
-        String messageEcho="Echoed message: "+ message;
-        return new ResponseEntity<>(messageEcho,HttpStatus.OK);
+    public ResponseEntity<String> message(@RequestParam(name = "message", required = false) String message) {
+        String messageEcho = "Echoed message: " + message;
+        return new ResponseEntity<>(messageEcho, HttpStatus.OK);
     }
 
    /*   For Normal Get all the categories
@@ -36,12 +37,12 @@ public class CategoryController {
     // Using Paging and Sorting
     @GetMapping("/public/categories")
     public ResponseEntity<CategoryResponse> getAllCategory(
-            @RequestParam(name = "pageNumber",defaultValue = Constants.PAGE_NUMBER,required = false) Integer pageNumber,
-            @RequestParam(name = "pageSize",defaultValue = Constants.PAGE_SIZE,required = false)Integer pageSize,
-            @RequestParam(name = "sortBy",defaultValue = Constants.SORT_CATEGORIES_BY)String sortBy,
-            @RequestParam(name = "sortOrder",defaultValue = Constants.SORT_DIR)String sortOrder) {
+            @RequestParam(name = "pageNumber", defaultValue = Constants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = Constants.PAGE_SIZE, required = false) Integer pageSize,
+            @RequestParam(name = "sortBy", defaultValue = Constants.SORT_CATEGORIES_BY) String sortBy,
+            @RequestParam(name = "sortOrder", defaultValue = Constants.SORT_DIR) String sortOrder) {
 
-        CategoryResponse allCategory = categoryService.getAllCategory(pageNumber,pageSize,sortBy,sortOrder);
+        CategoryResponse allCategory = categoryService.getAllCategory(pageNumber, pageSize, sortBy, sortOrder);
         return new ResponseEntity<>(allCategory, HttpStatus.FOUND);
     }
 
@@ -57,7 +58,6 @@ public class CategoryController {
         CategoryDto categoryById = categoryService.getCategoryById(categoryId);
         return new ResponseEntity<>(categoryById, HttpStatus.FOUND);
     }
-
 
 
     @PutMapping("/public/categories/{categoryId}")
