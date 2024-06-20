@@ -18,26 +18,26 @@ public class GlobalException {
 
     //it will work when no item is available
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<APIException> handleResourceNotFoundException(ResourceNotFoundException e) {
+    public ResponseEntity<APIResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
         String message = e.getMessage();
-        APIException response = new APIException(HttpStatus.NOT_FOUND.value(), message, new Date());
+        APIResponse response = new APIResponse(HttpStatus.NOT_FOUND.value(), message, new Date());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     //it will work when we will use type mismatch while getting the item
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<APIException> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+    public ResponseEntity<APIResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
         String message = e.getMessage();
-        APIException response = new APIException(HttpStatus.BAD_REQUEST.value(), message, new Date());
+        APIResponse response = new APIResponse(HttpStatus.BAD_REQUEST.value(), message, new Date());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 
     //General Handler exception
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<APIException> handleGeneralException(Exception e) {
+    public ResponseEntity<APIResponse> handleGeneralException(Exception e) {
         String message = e.getMessage();
-        APIException response = new APIException(HttpStatus.INTERNAL_SERVER_ERROR.value(), message, new Date());
+        APIResponse response = new APIResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), message, new Date());
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
