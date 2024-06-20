@@ -7,7 +7,7 @@ public interface CategoryService {
 
     CategoryDto getCategoryById(Long categoryId);
 
-    CategoryResponse getAllCategory();
+    CategoryResponse getAllCategory(Integer pageNumber,Integer pageSize,String sortBy,String sortOrder);
 
     CategoryDto createCategory(CategoryDto categoryDto);
 
