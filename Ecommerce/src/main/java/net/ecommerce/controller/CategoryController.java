@@ -1,6 +1,7 @@
 package net.ecommerce.controller;
 
 import jakarta.validation.Valid;
+import net.ecommerce.constants.Constants;
 import net.ecommerce.payload.CategoryDto;
 import net.ecommerce.payload.CategoryResponse;
 import net.ecommerce.service.CategoryService;
@@ -24,6 +25,25 @@ public class CategoryController {
         return new ResponseEntity<>(messageEcho,HttpStatus.OK);
     }
 
+   /*   For Normal Get all the categories
+
+   @GetMapping("/public/categories")
+    public ResponseEntity<CategoryResponse> getAllCategory() {
+        CategoryResponse allCategory = categoryService.getAllCategory();
+        return new ResponseEntity<>(allCategory, HttpStatus.FOUND);
+    }*/
+
+    // Using Paging and Sorting
+    @GetMapping("/public/categories")
+    public ResponseEntity<CategoryResponse> getAllCategory(
+            @RequestParam(name = "pageNumber",defaultValue = Constants.PAGE_NUMBER,required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize",defaultValue = Constants.PAGE_SIZE,required = false)Integer pageSize,
+            @RequestParam(name = "sortBy",defaultValue = Constants.SORT_CATEGORIES_BY)String sortBy,
+            @RequestParam(name = "sortOrder",defaultValue = Constants.SORT_DIR)String sortOrder) {
+
+        CategoryResponse allCategory = categoryService.getAllCategory(pageNumber,pageSize,sortBy,sortOrder);
+        return new ResponseEntity<>(allCategory, HttpStatus.FOUND);
+    }
 
 
     @PostMapping("/public/categories")
@@ -38,11 +58,7 @@ public class CategoryController {
         return new ResponseEntity<>(categoryById, HttpStatus.FOUND);
     }
 
-    @GetMapping("/public/categories")
-    public ResponseEntity<CategoryResponse> getAllCategory() {
-        CategoryResponse allCategory = categoryService.getAllCategory();
-        return new ResponseEntity<>(allCategory, HttpStatus.FOUND);
-    }
+
 
     @PutMapping("/public/categories/{categoryId}")
     public ResponseEntity<CategoryDto> updateCategory(@Valid @RequestBody CategoryDto categoryDto, @PathVariable Long categoryId) {
